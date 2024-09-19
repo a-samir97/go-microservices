@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   blog_app:
+    container_name: blog_app
     build:
       context: ./services/blogs
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
       - blogs_db
     
   user_app:
+    container_name: user_app
     build:
       context: ./services/users
       dockerfile: Dockerfile
@@ -35,12 +37,15 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=blogs
     
   users_db:
     image: postgres
     container_name: users_db
     ports:
-      - 5433:5433
+      - 5433:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=users
+  
