@@ -1,14 +1,22 @@
 package main
 
 import (
+	"fmt"
+	"users/api/handlers"
+	"users/api/routes"
+	"users/internal/repository"
+	"users/internal/services"
+
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	app := fiber.New()
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello World from Users App")
-	})
+	userRepo := repository.NewSqlRepository()
+	fmt.Println(userRepo.Db)
+	userService := services.NewUserService(userRepo)
+	userHandler := handlers.NewUserHandler(*userService)
+	routes.NewRouter(app, userHandler)
 
 	app.Listen(":8001")
 }

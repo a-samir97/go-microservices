@@ -13,7 +13,7 @@ func NewUserService(repo repository.UserRepository) *UserService {
 	return &UserService{repo: repo}
 }
 
-func (us *UserService) CreateUser(user domain.User) error {
+func (us *UserService) CreateUser(user domain.User) (*domain.User, error) {
 
 	return us.repo.Save(&user)
 }
@@ -22,9 +22,9 @@ func (us *UserService) FindByID(id string) (*domain.User, error) {
 	return us.repo.FindByID(id)
 }
 
-func (us *UserService) UpdateUser(id string) (*domain.User, error) {
+func (us *UserService) UpdateUser(updatedUser domain.User, id string) (*domain.User, error) {
 
-	return us.repo.Update(id)
+	return us.repo.Update(updatedUser, id)
 }
 
 func (us *UserService) DeleteUser(id string) error {
