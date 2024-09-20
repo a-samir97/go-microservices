@@ -49,3 +49,44 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=users
   
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    volumes:
+      - ./rabbit-mq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      timeout: 15s
+      retries: 5
+
+  zookeeper:
+    hostname: zookeeper
+    image: bitnami/zookeeper:latest
+    restart: always
+    expose:
+      - "2181"
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  kafka:
+    hostname: kafka
+    image: bitnami/kafka:latest
+    restart: always
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+
