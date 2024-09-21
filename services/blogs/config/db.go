@@ -16,7 +16,7 @@ type DBConnection interface {
 type ORMConnection struct{}
 
 func (oc *ORMConnection) Connect() (*gorm.DB, error) {
-	dsn := "host=users_db user=postgres password=postgres dbname=blogs port=5432 sslmode=disable"
+	dsn := "host=blogs_db user=postgres password=postgres dbname=blogs port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn))
 
 	if err != nil {
@@ -29,7 +29,7 @@ func (oc *ORMConnection) Connect() (*gorm.DB, error) {
 type SQLConnection struct{}
 
 func (sc *SQLConnection) Connect() (*sql.DB, error) {
-	dsn := "host=users_db user=postgres password=postgres dbname=blogs port=5432 sslmode=disable"
+	dsn := "host=blogs_db user=postgres password=postgres dbname=blogs port=5432 sslmode=disable"
 	db, err := sql.Open("postgres", dsn)
 
 	if err != nil {

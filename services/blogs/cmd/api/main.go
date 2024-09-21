@@ -1,13 +1,20 @@
 package main
 
 import (
+	"blogs/api/handlers"
+	"blogs/api/routes"
+	"blogs/internal/repository"
+	"blogs/internal/services"
+
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
 	app := fiber.New()
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello World from Blogs App")
-	})
+	blogRepo := repository.NewSqlRepository()
+	blogService := services.NewBlogService(blogRepo)
+	blogHandler := handlers.NewBlogHandler(blogService)
+	blogRoutes := routes.NewBlogRoutes(app, *blogHandler)
+	blogRoutes.CreateRoutes()
 	app.Listen(":8000")
 }

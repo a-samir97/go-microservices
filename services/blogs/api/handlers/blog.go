@@ -1,6 +1,10 @@
 package handlers
 
-import "blogs/internal/services"
+import (
+	"blogs/internal/services"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 type BlogHandler struct {
 	service *services.BlogService
@@ -8,4 +12,9 @@ type BlogHandler struct {
 
 func NewBlogHandler(service services.BlogService) *BlogHandler {
 	return &BlogHandler{service: &service}
+}
+
+func (bh *BlogHandler) CreateBlog(ctx *fiber.Ctx) error {
+
+	return ctx.SendString("Test")
 }
