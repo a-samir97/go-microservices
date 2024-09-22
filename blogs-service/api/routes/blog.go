@@ -16,7 +16,10 @@ func NewBlogRoutes(app *fiber.App, handler handlers.BlogHandler) *BlogRoutes {
 }
 
 func (br *BlogRoutes) CreateRoutes() {
-	r := br.app.Group("/api/users")
+	r := br.app.Group("/api/blogs")
 
 	r.Post("/", br.handler.CreateBlog)
+	r.Get("/", br.handler.List)
+	r.Get("/:id/", br.handler.GetById)
+	r.Delete("/:id/", br.handler.Delete)
 }

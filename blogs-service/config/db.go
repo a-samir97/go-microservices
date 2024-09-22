@@ -42,5 +42,24 @@ func (sc *SQLConnection) Connect() (*sql.DB, error) {
 		log.Fatalln("SqlConnection Error", err.Error())
 	}
 
+	_, err = db.Exec(`
+	
+		CREATE TABLE IF NOT EXISTS blogs (
+			id SERIAL PRIMARY KEY,
+			title TEXT NOT NULL,
+			description TEXT NOT NULL,
+			user_id INTEGER NOT NULL,
+			likes INTEGER DEFAULT 0,
+			dislikes INTEGER DEFAULT 0 ,
+			claps INTEGER DEFAULT 0,
+			created_at TIMESTAMP DEFAULT current_timestamp,
+			updated_at TIMESTAMP DEFAULT current_timestamp
+		);
+	`)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return db, nil
 }

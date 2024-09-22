@@ -14,23 +14,23 @@ func NewBlogService(repo repository.BlogRepository) BlogService {
 	return BlogService{repository: repo}
 }
 
-func (bs *BlogService) Create(user domain.Blog) (domain.Blog, error) {
+func (bs *BlogService) Create(user domain.Blog) (*domain.Blog, error) {
 
 	return bs.repository.Create(user)
 }
 
-func (bs *BlogService) Update(updatedUser domain.Blog, id string) (domain.Blog, error) {
+func (bs *BlogService) Update(updatedUser domain.Blog, id string) (*domain.Blog, error) {
 	return bs.repository.Update(updatedUser, id)
 }
 
-func (bs *BlogService) Delete(id string) error {
+func (bs *BlogService) Delete(id int) error {
 	return bs.repository.Delete(id)
 }
 
-func (bs *BlogService) GetById(id string) *domain.Blog {
+func (bs *BlogService) GetById(id int) (*domain.Blog, error) {
 	return bs.repository.GetByID(id)
 }
 
-func (bs *BlogService) List() []domain.Blog {
+func (bs *BlogService) List() ([]domain.Blog, error) {
 	return bs.repository.List()
 }
