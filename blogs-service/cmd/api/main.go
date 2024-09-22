@@ -3,6 +3,7 @@ package main
 import (
 	"blogs/api/handlers"
 	"blogs/api/routes"
+	"blogs/internal/event/producer"
 	"blogs/internal/repository"
 	"blogs/internal/services"
 
@@ -12,7 +13,8 @@ import (
 func main() {
 	app := fiber.New()
 	blogRepo := repository.NewSqlRepository()
-	blogService := services.NewBlogService(blogRepo)
+	blogEventPublisher := producer.NewKafkaPublisher()
+	blogService := services.NewBlogService(blogRepo, blogEventPublisher)
 	blogHandler := handlers.NewBlogHandler(blogService)
 	blogRoutes := routes.NewBlogRoutes(app, *blogHandler)
 	blogRoutes.CreateRoutes()
