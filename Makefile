@@ -1,4 +1,4 @@
-.PHONY: analytics-up analytics-down blogs-up blogs-down users-up users-down infra-up infra-down up-all down-all
+.PHONY: analytics-up analytics-down blogs-up blogs-down users-up users-down kafka-up kafka-down rabbit-up rabbit-down up-all down-all
 
 analytics-up:
 	docker-compose -f analytics-service/docker-compose.yml up
@@ -27,17 +27,26 @@ users-down:
 users-build:
 	docker-compose -f users-service/docker-compose.yml build
 
-infra-up:
-	docker-compose -f deployments/docker-compose-queues.yml up
+kafka-up:
+	docker-compose -f deployments/docker-compose-kafka.yml up
 
-infra-down:
-	docker-compose -f deployments/docker-compose-queues.yml down
+kafka-down:
+	docker-compose -f deployments/docker-compose-kafka.yml down
 
-infra-build:
-	docker-compose -f deployments/docker-compose-queues.yml build
+kafka-build:
+	docker-compose -f deployments/docker-compose-kafka.yml build
+
+rabbit-up:
+	docker-compose -f deployments/docker-compose-rabbitmq.yml up
+
+rabbit-down:
+	docker-compose -f deployments/docker-compose-rabbitmq.yml down
+
+rabbit-build:
+	docker-compose -f deployments/docker-compose-rabbitmq.yml build
 
 up-all:
-	make -j3 blogs-up users-up infra-up
+	make -j3 blogs-up users-up kafka-up rabbit-up
 
 down-all:
-	make -j blogs-down users-down infra-down
+	make -j blogs-down users-down kafka-down rabbit-down

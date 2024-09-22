@@ -1,12 +1,7 @@
 package event
 
 type Publisher interface {
-	PublishBlogCreatedEvent(BlogCreatedEvent)
-	PublishBlogViewedEvent()
-	PublishBlogDeletedEvent()
-	PublishBlogLikeEvent()
-	PublishBlogDislikeEvent()
-	PublishBlogClappedEvent()
+	PublishEvent(blogEvent interface{}, topic string) error
 }
 
 type BlogCreatedEvent struct {
@@ -17,25 +12,24 @@ type BlogCreatedEvent struct {
 }
 
 type BlogViewedEvent struct {
-	BlogID string
-	UserID string
+	BlogID int
 }
 
 type BlogDeletedEvent struct {
-	BlogId string
+	BlogId int
 }
 
 type BlogLikedEvent struct {
-	BlogId string
-	UserId string
+	BlogId int
+	UserId int
 }
 
 type BlogDislikeEvent struct {
-	BlogId string
-	UserId string
+	BlogId int
+	UserId int
 }
 
 type BlogClappedEvent struct {
-	BlogId string
-	UserId string
+	BlogId int
+	UserId int
 }

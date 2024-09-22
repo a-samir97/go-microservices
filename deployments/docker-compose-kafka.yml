@@ -1,19 +1,6 @@
 version: '3.8'
 
 services:
-  rabbitmq:
-    image: 'rabbitmq:3-management'
-    volumes:
-      - ./rabbit-mq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-    ports:
-      - "8080:15672"
-      - "5672:5672"
-    healthcheck:
-      test: [ "CMD", "rabbitmqctl", "status"]
-      interval: 5s
-      timeout: 15s
-      retries: 5
-
   zookeeper:
     hostname: zookeeper
     image: bitnami/zookeeper:latest
@@ -24,6 +11,8 @@ services:
       - "2181:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - blogging_app_network
   
   kafka:
     hostname: kafka
@@ -41,4 +30,20 @@ services:
       - zookeeper
     ports:
       - '9092:9092'
+    networks:
+      - blogging_app_network
 
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKER_CONNECT: "kafka:9092"  # Adjust if necessary
+    depends_on:
+      - kafka
+    networks:
+      - blogging_app_network
+
+networks:
+  blogging_app_network:
+    external: true
