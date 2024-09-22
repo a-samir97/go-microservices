@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  blog_app:
+    container_name: blog_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    depends_on:
+      - blogs_db
+    links:
+      - blogs_db
+
+  blogs_db:
+    image: postgres
+    container_name: blogs_db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=blogs
