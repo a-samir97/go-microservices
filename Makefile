@@ -7,7 +7,7 @@ analytics-down:
 	docker-compose -f analytics-service/docker-compose.yml down
 
 analytics-build:
-	docker-compose -f analytics-service/docker.compose.yml build
+	docker-compose -f analytics-service/docker-compose.yml build
 
 blogs-up:
 	docker-compose -f blogs-service/docker-compose.yml up

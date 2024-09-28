@@ -4,11 +4,16 @@ services:
   fastapi:
     build: .
     ports:
-      - "8000:8000"
+      - "8002:8002"
     env_file:
       - .env
     depends_on:
       - db
+    networks:
+      - blogging_app_network
+    volumes:
+      - ./app:/app
+ 
   db:
     image: postgres:13
     environment:
@@ -16,6 +21,12 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "5434:5432"
+    networks:
+      - blogging_app_network
     volumes:
       - ~/app/postgres:/var/lib/postgresql/data
+
+networks:
+  blogging_app_network:
+    external: true
