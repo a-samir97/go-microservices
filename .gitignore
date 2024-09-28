@@ -26,3 +26,5 @@ go.work.sum
 */venv
 */__pycache__
 */tmp
+*/app/__pycache__
+*/app/*/__pycache__

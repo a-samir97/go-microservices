@@ -18,7 +18,7 @@ services:
       - blogging_app_network
 
   blogs_db:
-    image: postgres:13
+    image: postgres:15
     container_name: blogs_db
     ports:
       - 5432:5432
@@ -29,8 +29,10 @@ services:
     networks:
       - blogging_app_network
     volumes:
-      - ~/app/postgres:/var/lib/postgresql/data
+      - ~/app/postgres:/var/lib/postgresql@15/data
 
 networks:
   blogging_app_network:
     external: true
+    
+

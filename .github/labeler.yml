@@ -1,0 +1,8 @@
+analytics-service:
+  - 'analytics-service'
+
+blogs-service:
+  - 'blogs-service'
+
+users-service:
+  - 'users-service'
