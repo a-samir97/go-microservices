@@ -13,5 +13,8 @@ comments-service:
 notifications-service:
   - 'notifications-service/'
 
+api-gateway-service:
+  - 'api-gateway-service/'
+
 deployments:
   - 'deployments/'
