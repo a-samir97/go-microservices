@@ -1,8 +1,17 @@
 analytics-service:
-  - 'analytics-service'
+  - 'analytics-service/'
 
 blogs-service:
-  - 'blogs-service'
+  - 'blogs-service/'
 
 users-service:
-  - 'users-service'
+  - 'users-service/'
+
+comments-service:
+  - 'comments-service/'
+
+notifications-service:
+  - 'notifications-service/'
+
+deployments:
+  - 'deployments/'
