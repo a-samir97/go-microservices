@@ -1,20 +1,26 @@
 analytics-service:
-  - 'analytics-service/'
+  - 'analytics-service/**/*'
 
 blogs-service:
-  - 'blogs-service/'
+  - 'blogs-service/**/*'
 
 users-service:
-  - 'users-service/'
+  - 'users-service/**/*'
 
 comments-service:
-  - 'comments-service/'
+  - 'comments-service/**/*'
 
 notifications-service:
-  - 'notifications-service/'
+  - 'notifications-service/**/*'
 
 api-gateway-service:
-  - 'api-gateway-service/'
+  - 'api-gateway-service/**/*'
 
 deployments:
-  - 'deployments/'
+  - 'deployments/**/*'
+
+ci-cd:
+  - '.github/**/*'
+
+documentation:
+  - 'docs/**/*'

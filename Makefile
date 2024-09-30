@@ -27,6 +27,15 @@ blogs-down:
 blogs-build:
 	docker-compose -f blogs-service/docker-compose.yml build
 
+comments-up:
+	docker-compose -f comments-service/docker-compose.yml up
+
+comments-down:
+	docker-compose -f comments-service/docker-compose.yml down
+
+comments-build:
+	docker-compose -f comments-service/docker-compose.yml build
+
 users-up:
 	docker-compose -f users-service/docker-compose.yml up
 
