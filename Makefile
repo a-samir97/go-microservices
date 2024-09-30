@@ -1,5 +1,14 @@
 .PHONY: analytics-up analytics-down blogs-up blogs-down users-up users-down kafka-up kafka-down rabbit-up rabbit-down up-all down-all
 
+api-gateway-up:
+	docker-compose -f api-gateway-service/docker-compose.yml up
+
+api-gateway-down:
+	docker-compose -f api-gateway-service/docker-compose.yml down
+
+api-gateway-build:
+	docker-compose -f api-gateway-service/docker-compose.yml build
+
 analytics-up:
 	docker-compose -f analytics-service/docker-compose.yml up
 
