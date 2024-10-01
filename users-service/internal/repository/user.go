@@ -6,7 +6,8 @@ import (
 
 type UserRepository interface {
 	Save(*domain.User) (*domain.User, error)
-	FindByID(id string) (*domain.User, error)
-	Update(user domain.User, id string) (*domain.User, error)
+	FindByID(id int) (*domain.User, error)
+	Update(user domain.User, id int) (*domain.User, error)
 	Delete(id string) error
+	FindByEmail(email string) (*domain.User, error)
 }

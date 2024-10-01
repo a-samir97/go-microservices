@@ -12,7 +12,7 @@ import (
 
 func main() {
 	app := fiber.New()
-	userRepo := repository.NewSqlRepository()
+	userRepo := repository.NewORMRepository()
 	fmt.Println(userRepo.Db)
 	userService := services.NewUserService(userRepo)
 	userHandler := handlers.NewUserHandler(*userService)

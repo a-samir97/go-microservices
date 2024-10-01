@@ -3,6 +3,7 @@ package config
 import (
 	"database/sql"
 	"log"
+	"users/internal/domain"
 
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -23,6 +24,7 @@ func (oc *ORMConnection) Connect() (*gorm.DB, error) {
 		return nil, err
 	}
 
+	db.AutoMigrate(&domain.User{})
 	return db, nil
 }
 

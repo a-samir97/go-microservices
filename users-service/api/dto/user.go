@@ -14,3 +14,13 @@ type UserResponse struct {
 	Email     string `json:"email"`
 	Avatar    string `json:"avatar"`
 }
+
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type LoginResponse struct {
+	Email string `json:"email"`
+	Token string `json:"token"`
+}

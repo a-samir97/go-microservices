@@ -15,6 +15,7 @@ type ORMRepository struct {
 func NewORMRepository() *ORMRepository {
 	ormConnection := config.ORMConnection{}
 	db, err := ormConnection.Connect()
+
 	if err != nil {
 		log.Fatal("ORM Connection Error", err.Error())
 		return nil
@@ -32,16 +33,25 @@ func (up *ORMRepository) Save(user *domain.User) (*domain.User, error) {
 	return user, nil
 }
 
-func (up *ORMRepository) FindByID(id string) (*domain.User, error) {
+func (up *ORMRepository) FindByID(id int) (*domain.User, error) {
 	var user domain.User
-	result := up.Db.First(user, id)
+	result := up.Db.Where("id = ?", id).First(&user)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &user, nil
 }
 
-func (up *ORMRepository) Update(updatedUser domain.User, id string) (*domain.User, error) {
+func (up *ORMRepository) FindByEmail(email string) (*domain.User, error) {
+	var user domain.User
+	result := up.Db.Where("email = ?", email).First(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}
+
+func (up *ORMRepository) Update(updatedUser domain.User, id int) (*domain.User, error) {
 	result := up.Db.Save(domain.User{
 		ID: id, FirstName: updatedUser.FirstName,
 		LastName: updatedUser.LastName,
