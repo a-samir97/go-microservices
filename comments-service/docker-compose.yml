@@ -9,14 +9,14 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - comment_db
     networks:
       - blogging_app_network
     volumes:
       - ./app:/app
  
-  db:
-    image: postgres:13
+  comment_db:
+    image: postgres:15
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -26,7 +26,7 @@ services:
     networks:
       - blogging_app_network
     volumes:
-      - ~/app/postgres:/var/lib/postgresql/data
+      - ~/app/postgres:/var/lib/postgresql@15/data
 
 networks:
   blogging_app_network:

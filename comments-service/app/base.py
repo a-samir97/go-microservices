@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQLALCHEMY_DATABASE_URL = "postgres://postgres:postgres@commentsDB"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@comment_db:5432/commentsDB"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 

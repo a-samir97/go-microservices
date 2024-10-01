@@ -1,9 +1,13 @@
 import asyncio
 import logging
-from api.routers import comment_router
 from fastapi import FastAPI
 
+from routers import comment_router
+from base import Base, engine
+
+Base.metadata.create_all(bind=engine)
 # from messaging.consumer import start_consumer
+
 
 app = FastAPI()
 
