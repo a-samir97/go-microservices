@@ -16,7 +16,7 @@ services:
       - users_db
     
   users_db:
-    image: postgres:13
+    image: postgres:15
     container_name: users_db
     ports:
       - 5433:5432
@@ -25,4 +25,4 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=users
     volumes:
-      - ~/app/postgres:/var/lib/postgresql/data
+      - ~/app/postgres:/var/lib/postgresql@15/data
