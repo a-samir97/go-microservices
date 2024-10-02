@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"time"
 	"users/api/handlers"
 	"users/api/routes"
+	"users/internal/event/producer"
 	"users/internal/repository"
 	"users/internal/services"
 
@@ -59,11 +59,14 @@ func init() {
 func main() {
 	app := fiber.New()
 	userRepo := repository.NewORMRepository()
-	fmt.Println(userRepo.Db)
-	userService := services.NewUserService(userRepo)
+	kafkaPublisher := producer.NewKafkaPublisher()
+	userService := services.NewUserService(userRepo, kafkaPublisher)
 	userHandler := handlers.NewUserHandler(*userService)
 	routes.NewRouter(app, userHandler)
+
+	// Middlware for prometheus and jwt verification
 	app.Use(prometheusMiddleware)
+	// app.Use(config.JwtVerifyMiddlware)
 
 	app.Get("/metrics/", adaptor.HTTPHandler(promhttp.Handler()))
 
