@@ -14,6 +14,9 @@ services:
       - users_db
     links:
       - users_db
+    networks:
+      - blogging_app_network
+
     
   users_db:
     image: postgres:15
@@ -26,3 +29,9 @@ services:
       - POSTGRES_DB=users
     volumes:
       - ~/app/postgres:/var/lib/postgresql@15/data
+    networks:
+      - blogging_app_network
+
+networks:
+  blogging_app_network:
+    external: true

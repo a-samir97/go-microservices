@@ -63,6 +63,15 @@ rabbit-down:
 rabbit-build:
 	docker-compose -f deployments/docker-compose-rabbitmq.yml build
 
+mon-up:
+	docker-compose -f deployments/docker-compose-monitoring.yml up
+
+mon-down:
+	docker-compose -f deployments/docker-compose-monitoring.yml down
+
+mon-build:
+	docker-compose -f deployments/docker-compose-monitoring.yml build
+
 up-all:
 	make -j3 blogs-up users-up kafka-up rabbit-up
 
