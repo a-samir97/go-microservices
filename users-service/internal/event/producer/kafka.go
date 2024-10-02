@@ -13,9 +13,15 @@ type KafkaPublisher struct {
 }
 
 func NewKafkaPublisher() *KafkaPublisher {
+	_, err := kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "userCreated", 0)
+	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "userDeleted", 0)
+	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "userUpdated", 0)
+
+	if err != nil {
+		panic(err.Error())
+	}
 	w := kafka.Writer{
-		Addr:     kafka.TCP("localhost:9092"),
-		Topic:    "users",
+		Addr:     kafka.TCP("kafka:9092"),
 		Balancer: &kafka.LeastBytes{}, // load balancer
 	}
 
@@ -28,7 +34,7 @@ func (kp *KafkaPublisher) PublishUserCreatedEvent(userCreatedEvent event.UserCre
 	if err != nil {
 		return err
 	}
-	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value})
+	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value, Topic: "userCreated"})
 
 	if err != nil {
 		return err
@@ -44,7 +50,7 @@ func (kp *KafkaPublisher) PublishUserUpdatedEvent(userUpdatedEvent event.UserUpd
 		return err
 	}
 
-	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value})
+	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value, Topic: "userUpdated"})
 
 	if err != nil {
 		return err
@@ -59,7 +65,7 @@ func (kp *KafkaPublisher) PublishUserDeletedEvent(userDeletedEvent event.UserDel
 		return err
 	}
 
-	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value})
+	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value, Topic: "userDeleted"})
 
 	if err != nil {
 		return err

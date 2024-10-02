@@ -94,3 +94,51 @@ func (uh *UserHandler) GetUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(userResponse)
 }
+
+func (uh *UserHandler) UpdateUser(c *fiber.Ctx) error {
+	var userRequest dto.CreateUserRequest
+	if err := c.BodyParser(&userRequest); err != nil {
+		log.Println(err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	id := c.Params("id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println(err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	user, err := uh.service.FindByID(idInt)
+	if err != nil {
+		log.Println(err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	user.FirstName = userRequest.FirstName
+	user.LastName = userRequest.LastName
+	user.Email = userRequest.Email
+	user.Avatar = userRequest.Avatar
+
+	if _, err := uh.service.UpdateUser(*user, idInt); err != nil {
+		log.Println(err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	var userResponse dto.UserResponse
+	userResponse.FirstName = user.FirstName
+	userResponse.LastName = user.LastName
+	userResponse.Email = user.Email
+	userResponse.Avatar = user.Avatar
+
+	return c.Status(fiber.StatusOK).JSON(userResponse)
+}
+
+func (uh *UserHandler) DeleteUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+	if err := uh.service.DeleteUser(id); err != nil {
+		log.Println(err)
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+	return c.SendStatus(fiber.StatusNoContent)
+}

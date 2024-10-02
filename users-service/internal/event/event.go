@@ -3,9 +3,9 @@ package event
 import "time"
 
 type Publisher interface {
-	PublishUserCreatedEvent(UserCreatedEvent)
-	PublishUserUpdatedEvent()
-	PublishUserDeletedEvent()
+	PublishUserCreatedEvent(UserCreatedEvent) error
+	PublishUserUpdatedEvent(UserUpdatedEvent) error
+	PublishUserDeletedEvent(UserDeletedEvent) error
 }
 
 type Consumer interface {
