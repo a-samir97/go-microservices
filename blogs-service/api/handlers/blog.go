@@ -85,3 +85,51 @@ func (bh *BlogHandler) Delete(c *fiber.Ctx) error {
 
 	return c.SendStatus(fiber.StatusNoContent)
 }
+
+func (bh *BlogHandler) LikeBlog(ctx *fiber.Ctx) error {
+	id, err := strconv.Atoi(ctx.Params("id"))
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	blog, err := bh.service.LikeBlog(id)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(blog)
+}
+
+func (bh *BlogHandler) DislikeBlog(ctx *fiber.Ctx) error {
+	id, err := strconv.Atoi(ctx.Params("id"))
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	blog, err := bh.service.DislikeBlog(id)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(blog)
+}
+
+func (bh *BlogHandler) ClapBlog(ctx *fiber.Ctx) error {
+	id, err := strconv.Atoi(ctx.Params("id"))
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	blog, err := bh.service.ClapBlog(id)
+
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).SendString(err.Error())
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(blog)
+}

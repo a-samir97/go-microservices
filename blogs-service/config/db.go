@@ -52,6 +52,7 @@ func (sc *SQLConnection) Connect() (*sql.DB, error) {
 			likes INTEGER DEFAULT 0,
 			dislikes INTEGER DEFAULT 0 ,
 			claps INTEGER DEFAULT 0,
+			views INTEGER DEFAULT 0,
 			created_at TIMESTAMP DEFAULT current_timestamp,
 			updated_at TIMESTAMP DEFAULT current_timestamp
 		);
