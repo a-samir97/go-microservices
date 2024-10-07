@@ -22,4 +22,8 @@ func (br *BlogRoutes) CreateRoutes() {
 	r.Get("/", br.handler.List)
 	r.Get("/:id/", br.handler.GetById)
 	r.Delete("/:id/", br.handler.Delete)
+
+	r.Post("/:id/like/", br.handler.LikeBlog)
+	r.Post("/:id/dislike/", br.handler.DislikeBlog)
+	r.Post("/:id/clap/", br.handler.ClapBlog)
 }

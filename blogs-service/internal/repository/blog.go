@@ -8,4 +8,7 @@ type BlogRepository interface {
 	Delete(int) error
 	GetByID(int) (*domain.Blog, error)
 	List() ([]domain.Blog, error)
+	Like(int) (*domain.Blog, error)
+	Dislike(int) (*domain.Blog, error)
+	Clap(int) (*domain.Blog, error)
 }
