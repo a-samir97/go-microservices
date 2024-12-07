@@ -1,7 +1,10 @@
 package event
 
+import "time"
+
 type Publisher interface {
-	PublishEvent(blogEvent interface{}) error
+	PublishBlogViewed(blogEvent BlogViewedEvent) 
+	PublishBlogCreated(blogCreated BlogCreatedEvent)
 	PublishBlogLiked(blogliked BlogLikedEvent)
 	PublishBlogDisliked(blogDisliked BlogDislikeEvent)
 	PublishBlogClaped(blogClapped BlogClappedEvent)
@@ -10,8 +13,8 @@ type Publisher interface {
 type BlogCreatedEvent struct {
 	Title       string
 	Description string
-	UserId      string
-	CreatedAt   string
+	UserId      int
+	CreatedAt   time.Time
 }
 
 type BlogViewedEvent struct {
