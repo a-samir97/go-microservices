@@ -17,13 +17,18 @@ func NewBlogService(repo repository.BlogRepository, eventPublisher event.Publish
 	return BlogService{repository: repo, eventPublisher: eventPublisher}
 }
 
-func (bs *BlogService) Create(user domain.Blog) (*domain.Blog, error) {
+func (bs *BlogService) Create(blog domain.Blog) (*domain.Blog, error) {
+	blogObj, err := bs.repository.Create(blog)
 
-	return bs.repository.Create(user)
+	event := event.BlogCreatedEvent{
+		Title: blog.Title, Description: blog.Description, UserId: blog.UserId, CreatedAt: blog.CreatedAt}
+	bs.eventPublisher.PublishBlogCreated(event)
+
+	return blogObj, err
 }
 
-func (bs *BlogService) Update(updatedUser domain.Blog, id string) (*domain.Blog, error) {
-	return bs.repository.Update(updatedUser, id)
+func (bs *BlogService) Update(updatedBlog domain.Blog, id string) (*domain.Blog, error) {
+	return bs.repository.Update(updatedBlog, id)
 }
 
 func (bs *BlogService) Delete(id int) error {
@@ -37,7 +42,7 @@ func (bs *BlogService) GetById(id int) (*domain.Blog, error) {
 		return nil, err
 	}
 
-	bs.eventPublisher.PublishEvent(blog)
+	bs.eventPublisher.PublishBlogViewed(event.BlogViewedEvent{BlogID: blog.ID})
 	return blog, err
 }
 
@@ -69,7 +74,6 @@ func (bs *BlogService) DislikeBlog(id int) (*domain.Blog, error) {
 	blogDislikedEvent := event.BlogDislikeEvent{BlogId: blog.ID, Dislikes: int(blog.Dislikes)}
 	bs.eventPublisher.PublishBlogDisliked(blogDislikedEvent)
 	return blog, err
-	// publish event to kafka (BlogDisliked)
 }
 
 func (bs *BlogService) ClapBlog(id int) (*domain.Blog, error) {

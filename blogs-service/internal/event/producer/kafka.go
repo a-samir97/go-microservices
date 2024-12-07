@@ -18,6 +18,7 @@ func NewKafkaPublisher() *KafkaPublisher {
 	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "blog_likes", 0)
 	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "blog_dislikes", 0)
 	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "blog_claps", 0)
+	kafka.DialLeader(context.Background(), "tcp", "kafka:9092", "blog_created", 0)
 
 	if err != nil {
 		panic(err.Error())
@@ -30,7 +31,20 @@ func NewKafkaPublisher() *KafkaPublisher {
 	return &KafkaPublisher{Writer: &w}
 }
 
-func (kp *KafkaPublisher) PublishEvent(blogEvent interface{}) error {
+func (kp *KafkaPublisher) PublishBlogCreated(blogEvent event.BlogCreatedEvent) {
+	value, err := json.Marshal(blogEvent)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value, Topic: "blog_created"})
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
+func (kp *KafkaPublisher) PublishBlogViewed(blogEvent interface{}) error {
 	value, err := json.Marshal(blogEvent)
 
 	if err != nil {
