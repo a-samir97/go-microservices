@@ -44,21 +44,17 @@ func (kp *KafkaPublisher) PublishBlogCreated(blogEvent event.BlogCreatedEvent) {
 	}
 }
 
-func (kp *KafkaPublisher) PublishBlogViewed(blogEvent interface{}) error {
+func (kp *KafkaPublisher) PublishBlogViewed(blogEvent event.BlogViewedEvent) {
 	value, err := json.Marshal(blogEvent)
 
 	if err != nil {
 		log.Println(err.Error())
-		return err
 	}
 	err = kp.Writer.WriteMessages(context.Background(), kafka.Message{Value: value, Topic: "blog_viewed"})
 
 	if err != nil {
 		log.Println(err.Error())
-		return err
 	}
-
-	return nil
 }
 
 func (kp *KafkaPublisher) PublishBlogLiked(blogLiked event.BlogLikedEvent) {
