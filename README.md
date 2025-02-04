@@ -63,10 +63,6 @@ Kafka is used to handle the event-driven communication between microservices. Th
 
 ## Usage
 ### Running Services
-Based on the Makefile, here is the updated "Running Services" section in the README file:
-
-## Usage
-### Running Services
 You can use the provided Makefile to easily manage the services.
 
 - **API Gateway Service**:
